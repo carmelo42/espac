@@ -112,14 +112,15 @@ uart:
 time:
   - platform: sntp
     id: refresh_thermostat
-    on_time: 
+    timezone: CET-1CEST,M3.5.0,M10.5.0/3
+    update_interval: 15min
+    on_time:
+      # refresh_thermostat every 30s
       - seconds: /30
         then:
-          - lambda: id(external_temp).publish_state(id(external_temp).state);
-
-  - platform: sntp
-    id: idletooff
-    on_time: 
+          - lambda: |-
+              id(external_temp).publish_state(id(external_temp).state);
+      # idletooff every 10s
       - seconds: /10
         then:
           - lambda: |-
